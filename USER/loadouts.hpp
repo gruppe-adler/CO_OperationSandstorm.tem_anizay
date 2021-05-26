@@ -18,7 +18,7 @@
 */
 
 
-loadoutFactionBlu = "";
+loadoutFactionBlu = "UsmcDes";
 loadoutFactionOpf = "";
 loadoutFactionInd = "";
 
