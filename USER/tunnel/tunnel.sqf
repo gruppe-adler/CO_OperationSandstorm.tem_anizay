@@ -25,8 +25,10 @@
 // override mbg fnc
 mbg_bugs_fnc_buginit = {
     params ["_bug"];
-    [_bug] spawn mbg_bugs_fnc_bugbrain;
-    [_bug, "default"] remoteExec ["switchMove"];
+    if (_bug getVariable ["MBG_hasBrain", true]) then {
+        [_bug] spawn mbg_bugs_fnc_bugbrain;
+        [_bug, "default"] remoteExec ["switchMove"];
+    };
 };
 
 mbg_bugs_fnc_bugkilled = {
