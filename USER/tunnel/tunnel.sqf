@@ -26,8 +26,11 @@
 mbg_bugs_fnc_buginit = {
     params ["_bug"];
     if (_bug getVariable ["MBG_hasBrain", true]) then {
-        [_bug] spawn mbg_bugs_fnc_bugbrain;
+        // [_bug] execVM "USER\tunnel\mbg_bugBrain.sqf";
+        [_bug] call GRAD_bugs_fnc_brain;
         [_bug, "default"] remoteExec ["switchMove"];
+
+        [_bug] execVM "USER\tunnel\bugRider.sqf";
     };
 };
 
@@ -37,26 +40,6 @@ mbg_bugs_fnc_bugkilled = {
      _bug setVectorUp [0,0,-1];
 };
 
-/*
-["mbg_bug_01", "init", {
-    params ["_unit"];
-
-    [{
-        params ["_unit"];
-        [_unit, "default"] remoteExec ["switchMove"];
-
-        systemChat "bla";
-
-        private _nearestObjects = nearestObjects [_unit, [], 5];
-
-        {
-          if ((getModelInfo _x) select 0 == "shellcrater_01_f.p3d") then {
-                deleteVehicle _x;
-          };
-        } forEach _nearestObjects;
-    }, [_unit], 3] call CBA_fnc_waitUntilAndExecute;    
-}, true, [], true] call CBA_fnc_addClassEventhandler;
-*/
 
 
 params [
@@ -83,7 +66,7 @@ private _tunnels = nearestObjects [_position, [
     "Land_vn_tunnel_01_building_03_04"
 ], 30000];
 
-if (count _tunnels <= 0) exitWith { [format["!!! VN_TUNNEL_INIT: No tunnels found within 75m of position '%1'. Module init aborted. !!!", _position]] call bis_fnc_error; };
+if (count _tunnels <= 0) exitWith { [format["!!! VN_TUNNEL_INIT: No tunnels found within 30000m of position '%1'. Module init aborted. !!!", _position]] call bis_fnc_error; };
 
 {
         // Save tunnel module to tunnels for outside access to saved variables-
@@ -101,7 +84,7 @@ private _tunnel = [objnull, _tunnels#_index] select (_index >= 0);
     private _tunnel = _x;
     private _position = getPosASL _tunnel;
     _position params ["_aslX", "_aslY", "_aslZ"];
-    _tunnel setPosASL [_aslX, _aslY, 7000];
+    _tunnel setPosASL [_aslX, _aslY, 138];
 } foreach _tunnels;
 
 // Block all exits
